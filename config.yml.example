@@ -1,0 +1,36 @@
+# MySQL connection information
+mysql:
+  host: "localhost" # Please check this
+  port: 3306 # Please check this
+  user: "user" # Please change this
+  password: "password" # Please change this
+  db: "dbname" # Please change this
+discord:
+  prefixCmd: "." # Please check this
+  ownerID: 386761001808166912 # Not used
+  token: "..." # discord bot token
+  botuserid: 739265487388672111 # Please change this
+# XMR stagenet, call XMS
+daemonXMS:
+  # XMR is 12-digit, 1000000000000
+  daemonrpc: "127.0.0.1:38081"
+  wallethost: "127.0.0.1"
+  walletport: "1111"
+  mixin: 7 # Not used
+  reserved_fee: 1000000000 # 0.001
+  min_tx_amount: 10000000000 # 0.01
+  max_tx_amount: 100000000000000 # 100.xxx
+  # other settings
+  MainAddress: "5.." # Add main wallet-rpc address
+  decimal: 1000000000000
+  AddrLen: 95
+  IntAddrLen: 106
+  confirm_depth: 10
+  name: "XMS"
+  coin_family: "XMR"
+  DiffTarget: 120
+interval:
+  notify_tx: 20
+notify_new_tx:
+  enable_new_no_confirm: 1
+Enable_Coin_XMR: "XMS"
