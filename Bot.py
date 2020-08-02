@@ -210,9 +210,9 @@ async def stats(ctx):
             height = "{:,}".format(gettopblock['block_header']['height'])
             reward = "{:,}".format(int(gettopblock['block_header']['reward'])/int(COIN_DEC))
             if coin_family == "XMR":
-                desc = f"Tx min/max: {num_format_coin(get_min_tx_amount(COIN_NAME), COIN_NAME)}-{num_format_coin(get_max_tx_amount(COIN_NAME), COIN_NAME)}{COIN_NAME}\n"
+                desc = f"`{num_format_coin(get_min_tx_amount(COIN_NAME), COIN_NAME)}-{num_format_coin(get_max_tx_amount(COIN_NAME), COIN_NAME)}{COIN_NAME}`"
                 embed = discord.Embed(title=f"[ {COIN_NAME} ]", 
-                                      description=desc, 
+                                      description='This bot\'s wallet is running with XMR stagenet', 
                                       timestamp=datetime.utcnow(), color=0xDEADBF)
                 embed.set_author(name=bot.user.name, icon_url=bot.user.avatar_url)
                 embed.add_field(name="NET HEIGHT", value=str(height), inline=True)
@@ -220,6 +220,7 @@ async def stats(ctx):
                 embed.add_field(name="DIFFICULTY", value=difficulty, inline=True)
                 embed.add_field(name="BLOCK REWARD", value=f'{reward}{COIN_NAME}', inline=True)
                 embed.add_field(name="NETWORK HASH", value=hashrate, inline=True)
+                embed.add_field(name="Tx Min/Max", value=desc, inline=True)
                 try:
                     walletStatus = await daemonrpc_client.getWalletStatus(COIN_NAME)
                     if walletStatus:
@@ -227,6 +228,7 @@ async def stats(ctx):
                         embed.add_field(name="WALLET SYNC %", value=t_percent + '% (' + '{:,.0f}'.format(walletStatus['height'] - 1) + ')', inline=True)
                 except Exception as e:
                     traceback.print_exc(file=sys.stdout)
+                embed.add_field(name='XMR Stagenet', value="[Explorer](https://community.xmr.to/explorer/stagenet) / [Faucet](https://community.xmr.to/faucet/stagenet)", inline=True)
                 embed.set_footer(text='MoneroTipBot')
                 try:
                     msg = await ctx.send(embed=embed)
