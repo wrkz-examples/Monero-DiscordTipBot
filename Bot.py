@@ -466,16 +466,20 @@ async def tipall(ctx, amount: str, user: str='ONLINE'):
 
 @bot.command(pass_context=True, name='balance', aliases=['bal'], help=bot_help_balance)
 async def balance(ctx):
+    global TX_IN_PROCESS
     COIN_NAME = "XMS"
     wallet = await store.sql_get_userwallet(str(ctx.message.author.id), COIN_NAME, 'DISCORD')
     if wallet is None:
         userregister = await store.sql_register_user(str(ctx.message.author.id), COIN_NAME, 'DISCORD')
         wallet = await store.sql_get_userwallet(str(ctx.message.author.id), COIN_NAME, 'DISCORD')
     if wallet:
+        note = ''
+        if ctx.message.author.id in TX_IN_PROCESS:
+            note = '*You have some a tx in progress. Balance is being updated.*'
         userdata_balance = await store.sql_user_balance(str(ctx.message.author.id), COIN_NAME, 'DISCORD')
         balance_actual = num_format_coin(wallet['actual_balance'] + float(userdata_balance['Adjust']), COIN_NAME)
         await ctx.message.add_reaction(EMOJI_OK_HAND)
-        msg = await ctx.send(f'**[ YOUR BALANCE ]**\n```{balance_actual}{COIN_NAME}```')
+        msg = await ctx.send(f'**[ YOUR BALANCE ]**\n```{balance_actual}{COIN_NAME}```{note}')
         await msg.add_reaction(EMOJI_OK_BOX)
         return
 
